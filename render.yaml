@@ -2,7 +2,6 @@ services:
   - type: web
     name: canking
     runtime: node
-    rootDir: backend
     buildCommand: npm install
-    startCommand: node server.js
+    startCommand: node backend/server.js
     plan: free
