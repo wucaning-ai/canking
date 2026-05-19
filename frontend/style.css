@@ -1,0 +1,552 @@
+/* ── Reset & Base ─────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --border: #2a2a2a;
+    --text: #d4d4d4;
+    --text-dim: #666;
+    --text-muted: #444;
+    --accent: #888;
+    --glow: rgba(180, 180, 180, 0.15);
+    --serif: "Noto Serif SC", "Source Han Serif SC", "SimSun", Georgia, "Times New Roman", serif;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--serif);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.8;
+    position: relative;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* ── Starfield Canvas ────────────────────── */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── Floating Hearts ─────────────────────── */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    bottom: -30px;
+    opacity: 0;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.15;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg) scale(0.4);
+        opacity: 0;
+    }
+}
+
+/* ── Quotes Marquee ──────────────────────── */
+.quotes-marquee {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    height: 36px;
+    height: calc(36px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    display: flex;
+    align-items: center;
+}
+
+.quotes-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 45s linear infinite;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+}
+
+.quotes-track span {
+    padding: 0 1.2em;
+}
+
+.quotes-track .dot {
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ── Container ───────────────────────────── */
+.container {
+    position: relative;
+    z-index: 5;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 70px 24px 80px;
+    padding-top: calc(70px + env(safe-area-inset-top));
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+    padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 40px));
+}
+
+/* ── Header ──────────────────────────────── */
+header {
+    text-align: center;
+    margin-bottom: 56px;
+    padding-top: 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #e8e8e8;
+    letter-spacing: 0.3em;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+}
+
+/* ── TOC Toggle ──────────────────────────── */
+.toc-toggle {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+#tocBtn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: var(--serif);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#tocBtn:hover {
+    border-color: #555;
+    color: var(--text-dim);
+}
+
+/* ── TOC Panel ───────────────────────────── */
+.toc-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 36px;
+    animation: fadeSlideIn 0.3s ease forwards;
+}
+
+.toc-panel.open {
+    display: block;
+}
+
+.toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+}
+
+.toc-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.toc-close:hover {
+    color: var(--text);
+}
+
+.toc-body {
+    padding: 12px 20px 16px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.toc-date-group {
+    margin-bottom: 10px;
+}
+
+.toc-date-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: inline-block;
+}
+
+.toc-date-label:hover {
+    color: var(--text);
+}
+
+.toc-date-count {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-left: 8px;
+}
+
+.toc-empty {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 8px 0;
+}
+
+/* ── Date Section Divider ────────────────── */
+.date-divider {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 50px;
+}
+
+/* ── Editor Date ─────────────────────────── */
+.editor-date {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* ── Editor ──────────────────────────────── */
+.editor {
+    margin-bottom: 56px;
+}
+
+textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 1rem;
+    padding: 20px;
+    resize: vertical;
+    line-height: 1.9;
+    outline: none;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    min-height: 140px;
+}
+
+textarea::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+textarea:focus {
+    border-color: #555;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 0 30px rgba(255, 255, 255, 0.03),
+        inset 0 0 20px rgba(255, 255, 255, 0.01);
+}
+
+#saveBtn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#saveBtn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.04),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+#saveBtn:hover {
+    border-color: #555;
+    color: #ccc;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.04);
+}
+
+#saveBtn:hover::before {
+    left: 100%;
+}
+
+#saveBtn:active {
+    transform: scale(0.99);
+}
+
+/* ── Diary List ──────────────────────────── */
+.diary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.diary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    position: relative;
+    animation: fadeSlideIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+.diary-card .time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.diary-card .content {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 2;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.diary-card .delete-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-family: var(--serif);
+}
+
+.diary-card:hover .delete-btn {
+    opacity: 1;
+}
+
+.diary-card .delete-btn:hover {
+    color: #aaa;
+    transform: scale(1.2);
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Empty State ─────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    font-style: italic;
+}
+
+/* ── Scrollbar ───────────────────────────── */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 2px;
+}
+
+/* ── Touch: always show delete btn ────────── */
+@media (hover: none) {
+    .diary-card .delete-btn {
+        opacity: 0.4;
+    }
+    .diary-card .delete-btn:active {
+        opacity: 1;
+        color: #aaa;
+    }
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 768px) {
+    .container {
+        padding: 56px 18px 60px;
+        padding-top: calc(56px + env(safe-area-inset-top));
+        padding-left: max(18px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+        padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 24px));
+    }
+
+    header {
+        margin-bottom: 40px;
+        padding-top: 12px;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+        letter-spacing: 0.2em;
+    }
+
+    .subtitle {
+        font-size: 0.78rem;
+    }
+
+    .editor {
+        margin-bottom: 40px;
+    }
+
+    textarea {
+        padding: 16px;
+        font-size: 16px; /* prevent iOS zoom */
+        min-height: 120px;
+    }
+
+    #saveBtn {
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+
+    .diary-card {
+        padding: 18px;
+    }
+
+    .diary-card .delete-btn {
+        top: 12px;
+        right: 12px;
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+
+    .toc-body {
+        max-height: 240px;
+    }
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding: 50px 14px 48px;
+        padding-top: calc(50px + env(safe-area-inset-top));
+        padding-left: max(14px, env(safe-area-inset-left));
+        padding-right: max(14px, env(safe-area-inset-right));
+    }
+
+    header h1 {
+        font-size: 1.35rem;
+    }
+
+    .quotes-marquee {
+        height: 30px;
+    }
+
+    .quotes-track {
+        font-size: 0.72rem;
+    }
+
+    textarea {
+        padding: 14px;
+        min-height: 100px;
+    }
+
+    .diary-card {
+        padding: 14px;
+    }
+}

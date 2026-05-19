@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>深夜日记 — 一个人的宇宙</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <div class="hearts-container" id="hearts"></div>
+
+    <div class="quotes-marquee">
+        <div class="quotes-track">
+            <span>存在即时间</span>
+            <span class="dot">·</span>
+            <span>我思故我在</span>
+            <span class="dot">·</span>
+            <span>一切终将消散</span>
+            <span class="dot">·</span>
+            <span>沉默比语言更真实</span>
+            <span class="dot">·</span>
+            <span>人是被抛入世界的存在</span>
+            <span class="dot">·</span>
+            <span>他人即地狱</span>
+            <span class="dot">·</span>
+            <span>未经审视的人生不值得过</span>
+            <span class="dot">·</span>
+            <span>万物皆流 无物常驻</span>
+            <span class="dot">·</span>
+            <span>存在即时间</span>
+            <span class="dot">·</span>
+            <span>我思故我在</span>
+            <span class="dot">·</span>
+            <span>一切终将消散</span>
+            <span class="dot">·</span>
+            <span>沉默比语言更真实</span>
+            <span class="dot">·</span>
+            <span>人是被抛入世界的存在</span>
+            <span class="dot">·</span>
+            <span>他人即地狱</span>
+            <span class="dot">·</span>
+            <span>未经审视的人生不值得过</span>
+            <span class="dot">·</span>
+            <span>万物皆流 无物常驻</span>
+            <span class="dot">·</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>深夜日记</h1>
+            <p class="subtitle">一个人的宇宙，安静地写</p>
+        </header>
+
+        <nav class="toc-toggle">
+            <button id="tocBtn">日记目录</button>
+        </nav>
+
+        <div class="toc-panel" id="tocPanel">
+            <div class="toc-header">
+                <span>按日期归档</span>
+                <button class="toc-close" id="tocClose">&times;</button>
+            </div>
+            <div class="toc-body" id="tocBody"></div>
+        </div>
+
+        <main>
+            <section class="editor">
+                <div class="editor-date" id="editorDate"></div>
+                <textarea id="diaryInput" placeholder="此刻，你在想什么……" rows="5"></textarea>
+                <button id="saveBtn">保存</button>
+            </section>
+
+            <section class="diary-list" id="diaryList"></section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
