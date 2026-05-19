@@ -96,7 +96,7 @@
 // ── Diary System (API + localStorage fallback) ──
 (function initDiary() {
     const STORAGE_KEY = "midnight_diary";
-    const API = "/api";
+    const API = "https://canking.onrender.com/api";
     const input = document.getElementById("diaryInput");
     const saveBtn = document.getElementById("saveBtn");
     const list = document.getElementById("diaryList");
@@ -145,7 +145,7 @@
     // ── Detect API availability ─────────────
     async function detectBackend() {
         try {
-            const r = await fetch(API + "/list", { signal: AbortSignal.timeout(1500) });
+            const r = await fetch(API + "/list", { signal: AbortSignal.timeout(60000) });
             if (r.ok) {
                 useApi = true;
                 return;
