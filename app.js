@@ -308,6 +308,30 @@
         render();
     }
 
+    // ── Export diary ─────────────────────────
+    document.getElementById("exportBtn").addEventListener("click", () => {
+        if (entries.length === 0) return alert("还没有日记可下载");
+        const groups = groupByDate(entries);
+        let text = "深夜日记\n" + "=".repeat(30) + "\n\n";
+        Object.keys(groups)
+            .sort()
+            .reverse()
+            .forEach((dk) => {
+                text += "📅 " + formatDate(new Date(dk + "T00:00:00").getTime()) + "\n";
+                text += "-".repeat(24) + "\n";
+                groups[dk].forEach((e) => {
+                    text += formatTime(e.ts) + "\n";
+                    text += e.text + "\n\n";
+                });
+            });
+        const blob = new Blob(["﻿" + text], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "深夜日记_" + new Date().toISOString().slice(0, 10) + ".txt";
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+
     // ── Init ────────────────────────────────
     tocBtn.addEventListener("click", () => tocPanel.classList.toggle("open"));
     tocClose.addEventListener("click", () => tocPanel.classList.remove("open"));

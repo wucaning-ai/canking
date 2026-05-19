@@ -163,9 +163,13 @@ header h1 {
 .toc-toggle {
     text-align: center;
     margin-bottom: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 }
 
-#tocBtn {
+#tocBtn,
+#exportBtn {
     background: transparent;
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -178,7 +182,8 @@ header h1 {
     transition: all 0.3s ease;
 }
 
-#tocBtn:hover {
+#tocBtn:hover,
+#exportBtn:hover {
     border-color: #555;
     color: var(--text-dim);
 }
